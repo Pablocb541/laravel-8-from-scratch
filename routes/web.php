@@ -18,29 +18,24 @@ Route::get('/', function () {
 });
 
 Route::get('posts/{post}', function ($slug) {
- 
 
-        // $post= file_get_contents(__DIR__ . "/../resources/posts/{$slug}.html");
-
-        $path = __DIR__ . "/../resources/posts/{$slug}.html";  
-        
-        ddd($path);
-
-        if (! file_exists($path)){
+        if (! file_exists( $path = __DIR__ . "/../resources/posts/{$slug}.html")){
 
             return redirect( '/');
-
-            // dd("file does not exist");
         }
 
-        $post = file_get_contents($path);
+        $post = cache()->remember("post.{slug}", 1200 ,fn () => file_get_contents($path));
+            
+    return view('post',['post' => $post]);
+    
+})->where('post','[A-z_\-]+');
 
-    return view('post', [
-        
-        'post' => $post
-        
-    ]);
-})->where('post','[A-Z_\-]+');
+
+
+
+
+
+
 
 Auth::routes();
 
