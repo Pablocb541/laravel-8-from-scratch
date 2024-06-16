@@ -22,7 +22,9 @@ Route::get('posts/{post}', function ($slug) {
 
         // $post= file_get_contents(__DIR__ . "/../resources/posts/{$slug}.html");
 
-        $path = __DIR__ . "/../resources/posts/{$slug}.html";    
+        $path = __DIR__ . "/../resources/posts/{$slug}.html";  
+        
+        ddd($path);
 
         if (! file_exists($path)){
 
@@ -38,7 +40,7 @@ Route::get('posts/{post}', function ($slug) {
         'post' => $post
         
     ]);
-});
+})->where('post','[A-Z_\-]+');
 
 Auth::routes();
 
